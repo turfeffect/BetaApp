@@ -26,7 +26,8 @@ ui = navbarPage("A tool to evaluate the effectiveness of Marine Reserves",
       #Second tab starts here
       tabPanel("Inputs",
                sidebarLayout(
-                 mainPanel("For the objectives you chose, your inputs must look like this:"),
+                 mainPanel(p("For the objectives you chose, your inputs must look like this:"),
+                           img(src="Table1.png", width="600px")),
                  sidebarPanel(
                    selectInput(inputId="sp",
                                label="Select a species",
@@ -62,6 +63,31 @@ ui = navbarPage("A tool to evaluate the effectiveness of Marine Reserves",
 
 # Define server logic required to draw a histogram
 server = function(input, output) {
+  
+  # data = reactive({
+  #   
+  #   inFile = input$indata
+  #   
+  #   if (is.null(inFile)){
+  #     return(NULL)
+  #   }
+  #   
+  #   read.csv(inFile$datapath)
+  # 
+  #   })
+  # 
+  # s=reactive({richness(data, input$si)}) #Calculate species richness for Natividad
+  # t=reactive({trophic(data, input$si)}) #Calculate mean trophic level for Natividad
+  # D=reactive({density(data, input$si, input$sp)}) #Calculate density for P. clathratus for Natividad
+  # L=reactive({fish_size(data, input$si, input$sp)}) #Calculate mean size for P. clathratus for Natividad
+  # B=reactive({fish_biomass(data, input$si, input$sp)}) #Calculate biomass for P. clathratus for Natividad
+  # 
+  # DD_S=reactive({did(s(), input$y0, input$y1)}) # For species richness
+  # DD_T=reactive({did(t(), input$y0, input$y1)}) # For mean trophic level
+  # DD_D=reactive({did(D(), input$y0, input$y1)}) # For density (of P. clathratus)
+  # DD_L=reactive({did(L(), input$y0, input$y1)}) # For mean size (of P. clathratus)
+  # DD_B=reactive({did(B(), input$y0, input$y1)}) # For biomass (of P. clathratus)
+  
   output$plot <- renderPlot({
     # input$file1 will be NULL initially. After the user selects
     # and uploads a file, it will be a data frame with 'name',
@@ -70,19 +96,19 @@ server = function(input, output) {
     # be found.
     
     inFile = input$indata
-    
+
     if (is.null(inFile)){
       return(NULL)
     }
-    
+
     data=read.csv(inFile$datapath)
-    
+
     s=richness(data, input$si) #Calculate species richness for Natividad
     t=trophic(data, input$si) #Calculate mean trophic level for Natividad
     D=density(data, input$si, input$sp) #Calculate density for P. clathratus for Natividad
     L=fish_size(data, input$si, input$sp) #Calculate mean size for P. clathratus for Natividad
     B=fish_biomass(data, input$si, input$sp) #Calculate biomass for P. clathratus for Natividad
-    
+
     DD_S=did(s, input$y0, input$y1) # For species richness
     DD_T=did(t, input$y0, input$y1) # For mean trophic level
     DD_D=did(D, input$y0, input$y1) # For density (of P. clathratus)
@@ -133,32 +159,32 @@ server = function(input, output) {
   
   output$table=renderTable({
     inFile = input$indata
-    
+
     if (is.null(inFile)){
       return(NULL)
     }
-    
+
     data=read.csv(inFile$datapath)
-    
+
     s=richness(data, input$si) #Calculate species richness for Natividad
     t=trophic(data, input$si) #Calculate mean trophic level for Natividad
     D=density(data, input$si, input$sp) #Calculate density for P. clathratus for Natividad
     L=fish_size(data, input$si, input$sp) #Calculate mean size for P. clathratus for Natividad
     B=fish_biomass(data, input$si, input$sp) #Calculate biomass for P. clathratus for Natividad
-    
+
     DD_S=did(s, input$y0, input$y1) # For species richness
     DD_T=did(t, input$y0, input$y1) # For mean trophic level
     DD_D=did(D, input$y0, input$y1) # For density (of P. clathratus)
     DD_L=did(L, input$y0, input$y1) # For mean size (of P. clathratus)
     DD_B=did(B, input$y0, input$y1) # For biomass (of P. clathratus)
-    
+    # 
     stdlb=data.frame(Indicator=c("Richness","Trophic Level", "Density", "Length", "Biomass"),
                      DDValue=c(coef(DD_S)[3],
                                coef(DD_T)[3],
                                coef(DD_D)[3],
                                coef(DD_L)[3],
                                coef(DD_B)[3]))
-    stdlb
+    return(stdlb)
   })
 }
 
