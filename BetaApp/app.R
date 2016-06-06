@@ -3,6 +3,10 @@ library(shiny)
 library(MPAtools)
 library(ggplot2)
 library(gridExtra)
+library(dplyr)
+library(tidyr)
+library(reshape)
+library(reshape2)
 
 # Define UI for application that draws a histogram
 ui = navbarPage("A tool to evaluate the effectiveness of Marine Reserves",
@@ -26,8 +30,6 @@ ui = navbarPage("A tool to evaluate the effectiveness of Marine Reserves",
       #Second tab starts here
       tabPanel("Inputs",
                sidebarLayout(
-                 mainPanel(p("For the objectives you chose, your inputs must look like this:"),
-                           img(src="Table1.png", width="600px")),
                  sidebarPanel(
                    selectInput(inputId="sp",
                                label="Select a species",
@@ -50,10 +52,11 @@ ui = navbarPage("A tool to evaluate the effectiveness of Marine Reserves",
                                         ".csv",
                                         ".xls"))
                    ),
-                 position="right")
+                 mainPanel(p("For the objectives you chose, your inputs must look like this:"),
+                           img(src="Table1.png", width="600px")))
                ),
       
-      #Thir tab starts here
+      #Third tab starts here
       tabPanel("Outputs",
                sidebarPanel("Difference in Difference values for each indicator",
                             tableOutput("table")),

@@ -1,0 +1,9 @@
+name: BetaApp
+account: jcvd
+server: shinyapps.io
+appId: 107059
+bundleId: 473440
+url: https://jcvd.shinyapps.io/BetaApp/
+when: 1465229588.94231
+asMultiple: FALSE
+asStatic: FALSE
