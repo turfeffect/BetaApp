@@ -104,7 +104,7 @@ server = function(input, output) {
       return(NULL)
     }
 
-    data=read.csv(inFile$datapath)
+    data=read.csv(inFile$datapath, sep=";")
 
     s=richness(data, input$si) #Calculate species richness for Natividad
     t=trophic(data, input$si) #Calculate mean trophic level for Natividad
@@ -139,15 +139,15 @@ server = function(input, output) {
       labs(y="D'")
 
     #for fish size
-    plot_l=ggplot(L, aes(x=Year, y=mean, color=Zone))+
-      geom_point()+
-      stat_summary(fun.y="mean", geom="line")+
-      theme_bw()+
-      labs(y="Length (cm)")
+    # plot_l=ggplot(L, aes(x=Year, y=stat, color=Zone))+
+    #   geom_point()+
+    #   stat_summary(fun.y="mean", geom="line")+
+    #   theme_bw()+
+    #   labs(y="Length (cm)")
     
     #for biomass
     
-    plot_b=ggplot(B, aes(x=Year, y=`sum(W)`, color=Zone))+
+    plot_b=ggplot(B, aes(x=Year, y=B, color=Zone))+
       geom_point()+
       stat_summary(fun.y="mean", geom="line")+
       theme_bw()+
@@ -156,7 +156,7 @@ server = function(input, output) {
     grid.arrange(plot_s,
                  plot_t,
                  plot_d,
-                 plot_l,
+                 # plot_l,
                  plot_b)
   })
   
@@ -167,7 +167,7 @@ server = function(input, output) {
       return(NULL)
     }
 
-    data=read.csv(inFile$datapath)
+    data=read.csv(inFile$datapath, sep=";")
 
     s=richness(data, input$si) #Calculate species richness for Natividad
     t=trophic(data, input$si) #Calculate mean trophic level for Natividad
